@@ -1,17 +1,9 @@
 import { botCache } from "../../deps.ts";
 import {
-  cache,
-  editBotsStatus,
-  StatusTypes,
-  ActivityType,
+  cache
 } from "../../deps.ts";
 
 botCache.eventHandlers.ready = function () {
-  editBotsStatus(
-    StatusTypes.DoNotDisturb,
-    "Discordeno Best Lib",
-    ActivityType.Game,
-  );
 
   console.info(`Loaded ${botCache.arguments.size} Argument(s)`);
   console.info(`Loaded ${botCache.commands.size} Command(s)`);
