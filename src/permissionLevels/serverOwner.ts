@@ -1,4 +1,5 @@
-import { botCache, cache } from "../../deps.ts";
+import { cache } from "../../deps.ts";
+import { botCache } from "../../cache.ts"
 import { PermissionLevels } from "../types/commands.ts";
 
 // The member using the command must be an server owner.

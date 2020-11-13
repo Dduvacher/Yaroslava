@@ -1,4 +1,5 @@
-import { botCache, sendMessage } from "../../deps.ts";
+import { botCache } from "../../cache.ts";
+import { sendMessage } from "../../deps.ts";
 
 botCache.commands.set(`avatar`, {
   name: `avatar`,

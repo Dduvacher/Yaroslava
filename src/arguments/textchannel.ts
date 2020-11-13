@@ -1,4 +1,4 @@
-import { botCache } from "../../deps.ts";
+import { botCache } from "../../cache.ts";
 import { cache, ChannelTypes } from "../../deps.ts";
 
 botCache.arguments.set("textchannel", {

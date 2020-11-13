@@ -1,4 +1,5 @@
-import { botCache, cache, ChannelTypes } from "../../deps.ts";
+import { cache, ChannelTypes } from "../../deps.ts";
+import { botCache } from "../../cache.ts";
 
 botCache.arguments.set("categorychannel", {
   name: "categorychannel",

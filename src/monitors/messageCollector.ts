@@ -1,4 +1,5 @@
-import { botCache, Message } from "../../deps.ts";
+import { botCache } from "../../cache.ts";
+import { Message } from "../../deps.ts";
 
 botCache.monitors.set("messageCollector", {
   name: "messageCollector",

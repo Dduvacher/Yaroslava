@@ -2,7 +2,6 @@ import { configs } from "../../configs.ts";
 import { sendResponse, getTime } from "../utils/helpers.ts";
 import { handleError } from "../utils/errors.ts";
 import {
-  botCache,
   bgBlack,
   bgBlue,
   bgGreen,
@@ -17,6 +16,7 @@ import {
   red,
   white,
 } from "../../deps.ts";
+import { botCache } from "../../cache.ts"
 import { Command } from "../types/commands.ts";
 
 export const parsePrefix = (guildID: string | undefined) => {

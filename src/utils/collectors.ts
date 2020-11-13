@@ -4,7 +4,8 @@ import {
   CollectMessagesOptions,
   CollectReactionsOptions,
 } from "../types/collectors.ts";
-import { botCache, botID, Message,
+import { botCache } from "../../cache.ts";
+import { botID, Message,
   MessageReactionUncachedPayload,
   ReactionPayload, } from "../../deps.ts";
 import { Milliseconds } from "./constants/time.ts";

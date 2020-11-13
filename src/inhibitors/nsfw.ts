@@ -1,4 +1,5 @@
-import { botCache, cache } from "../../deps.ts";
+import { botCache } from "../../cache.ts";
+import { cache } from "../../deps.ts";
 
 botCache.inhibitors.set("nsfw", async function (message, command, guild) {
   // If this command does not need nsfw the inhibitor returns false so the command can run
