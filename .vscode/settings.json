@@ -1,4 +1,6 @@
 {
   "deno.enable": true,
   "editor.formatOnSave": true,
+  "deno.unstable": true,
+  "deno.lint": true
 }

@@ -1,13 +1,16 @@
 import {
-  MessageCollectorOptions,
-  ReactionCollectorOptions,
   CollectMessagesOptions,
   CollectReactionsOptions,
+  MessageCollectorOptions,
+  ReactionCollectorOptions,
 } from "../types/collectors.ts";
 import { botCache } from "../../cache.ts";
-import { botID, Message,
+import {
+  botID,
+  Message,
   MessageReactionUncachedPayload,
-  ReactionPayload, } from "../../deps.ts";
+  ReactionPayload,
+} from "../../deps.ts";
 import { Milliseconds } from "./constants/time.ts";
 
 export async function needMessage(

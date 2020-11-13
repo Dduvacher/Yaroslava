@@ -1,5 +1,5 @@
 import { cache, sendMessage } from "../../deps.ts";
-import { botCache } from '../../cache.ts';
+import { botCache } from "../../cache.ts";
 import i18next from "https://deno.land/x/i18next@v19.6.3/index.js";
 import Backend from "https://deno.land/x/i18next_fs_backend@v1.0.7/index.js";
 import { configs } from "../../configs.ts";

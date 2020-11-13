@@ -1,10 +1,7 @@
 import { botCache } from "../../cache.ts";
-import {
-  cache
-} from "../../deps.ts";
+import { cache } from "../../deps.ts";
 
 botCache.eventHandlers.ready = function () {
-
   console.info(`Loaded ${botCache.arguments.size} Argument(s)`);
   console.info(`Loaded ${botCache.commands.size} Command(s)`);
   console.info(`Loaded ${Object.keys(botCache.eventHandlers).length} Event(s)`);

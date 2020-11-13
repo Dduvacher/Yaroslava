@@ -1,9 +1,6 @@
-import {
-  cache,
-  getMember,
-} from "../../deps.ts";
+import { cache, getMember } from "../../deps.ts";
 
-import { botCache } from '../../cache.ts'
+import { botCache } from "../../cache.ts";
 
 botCache.arguments.set("member", {
   name: "member",

@@ -32,7 +32,7 @@ async function createMessage(data: MessageCreateOptions) {
   return message;
 }
 
-// @ts-ignore
+// @ts-ignore Boilerplate was ignoring this don't know why yet
 structures.createMessage = createMessage;
 
 declare module "../../../deps.ts" {

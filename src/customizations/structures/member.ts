@@ -24,7 +24,7 @@ async function createMember(data: MemberCreatePayload, guildID: string) {
   };
 }
 
-// @ts-ignore
+// @ts-ignore Boilerplate was ignoring this don't know why yet
 structures.createMember = createMember;
 
 declare module "../../../deps.ts" {
