@@ -24,7 +24,11 @@ export interface Command {
   };
   arguments?: CommandArgument[];
   subcommands?: Collection<string, Command>;
-  execute?: (message: Message, args: unknown, guild?: Guild) => unknown;
+  execute?: (
+    message: Message,
+    args: Record<string, unknown>,
+    guild?: Guild,
+  ) => unknown;
 }
 
 export interface CommandArgument {
