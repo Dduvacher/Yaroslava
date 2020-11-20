@@ -2,6 +2,7 @@ import {
   CollectMessagesOptions,
   CollectReactionsOptions,
   MessageCollectorOptions,
+  Reaction,
   ReactionCollectorOptions,
 } from "../types/collectors.ts";
 import { botCache } from "../../cache.ts";
@@ -53,6 +54,7 @@ export async function needReaction(
     messageID,
     createdAt: Date.now(),
     filter: options?.filter || ((userID) => memberID === userID),
+    stop: options?.stop || (() => false),
     amount: options?.amount || 1,
     duration: options?.duration || Milliseconds.MINUTE * 5,
   });
@@ -62,18 +64,54 @@ export async function needReaction(
 
 export async function collectReactions(
   options: CollectReactionsOptions,
-): Promise<string[]> {
+): Promise<Reaction[]> {
   return new Promise((resolve, reject) => {
     botCache.reactionCollectors.set(options.key, {
       ...options,
-      reactions: [] as string[],
+      reactions: [],
       resolve,
       reject,
     });
   });
 }
 
-export function processReactionCollectors(
+// Original reaction collector wich collected reaction by user, replaced by a collector by message
+
+// export function processReactionUserCollectors(
+//   message: Message | MessageReactionUncachedPayload,
+//   emoji: ReactionPayload,
+//   userID: string,
+// ) {
+//   // Ignore bot reactions
+//   if (userID === botID) return;
+
+//   const emojiName = emoji.id || emoji.name;
+//   if (!emojiName) return;
+
+//   const collector = botCache.reactionCollectors.get(userID);
+//   if (!collector) return;
+
+//   // This user has no collectors pending or the message is in a different channel
+//   if (!collector || (message.id !== collector.messageID)) return;
+//   // This message is a response to a collector. Now running the filter function.
+//   if (!collector.filter(userID, emojiName, message)) return;
+
+//   // If the necessary amount has been collected
+//   if (
+//     collector.amount === 1 ||
+//     collector.amount === collector.reactions.length + 1
+//   ) {
+//     // Remove the collector
+//     botCache.reactionCollectors.delete(userID);
+//     // Resolve the collector
+//     return collector.resolve([...collector.reactions, emojiName]);
+//   }
+
+//   // More reactions still need to be collected
+//   collector.reactions.push(emojiName);
+// }
+
+export function processReactionMessageCollectors(
   message: Message | MessageReactionUncachedPayload,
   emoji: ReactionPayload,
   userID: string,
@@ -84,7 +122,7 @@ export function processReactionCollectors(
   const emojiName = emoji.id || emoji.name;
   if (!emojiName) return;
 
-  const collector = botCache.reactionCollectors.get(userID);
+  const collector = botCache.reactionCollectors.get(message.id);
   if (!collector) return;
 
   // This user has no collectors pending or the message is in a different channel
@@ -92,17 +130,18 @@ export function processReactionCollectors(
   // This message is a response to a collector. Now running the filter function.
   if (!collector.filter(userID, emojiName, message)) return;
 
-  // If the necessary amount has been collected
+  // If the necessary amount has been collected or the stop funtion is true
   if (
     collector.amount === 1 ||
-    collector.amount === collector.reactions.length + 1
+    collector.amount === collector.reactions.length + 1 ||
+    collector.stop(userID, emojiName, message)
   ) {
     // Remove the collector
     botCache.reactionCollectors.delete(userID);
     // Resolve the collector
-    return collector.resolve([...collector.reactions, emojiName]);
+    return collector.resolve([...collector.reactions, { userID, emojiName }]);
   }
 
   // More reactions still need to be collected
-  collector.reactions.push(emojiName);
+  collector.reactions.push({ userID, emojiName });
 }
