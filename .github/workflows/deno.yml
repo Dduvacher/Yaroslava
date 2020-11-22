@@ -1,0 +1,38 @@
+# This workflow will install Deno and run tests across stable and nightly builds on Windows, Ubuntu and macOS.
+# For more information see: https://github.com/denolib/setup-deno
+
+name: Deno
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        deno: ["v1.x"]
+        node-verision: ["14.x"]
+    name: Deno ${{ matrix.deno }} sample
+
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Setup Deno
+        uses: denolib/setup-deno@v2
+        with:
+          deno-version: ${{ matrix.deno }}
+      - run: |
+          deno --version
+          deno run https://deno.land/std/examples/welcome.ts
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Cache Dependencies
+        run: deno cache deps.ts
+      
+      - name: Deploy
+        run: npm --version
+      
