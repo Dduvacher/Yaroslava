@@ -31,7 +31,7 @@ export async function needMessage(
   return message;
 }
 
-export async function collectMessages(
+export function collectMessages(
   options: CollectMessagesOptions,
 ): Promise<Message[]> {
   return new Promise((resolve, reject) => {
@@ -62,7 +62,7 @@ export async function needReaction(
   return reaction;
 }
 
-export async function collectReactions(
+export function collectReactions(
   options: CollectReactionsOptions,
 ): Promise<Reaction[]> {
   return new Promise((resolve, reject) => {

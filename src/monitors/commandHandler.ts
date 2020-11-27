@@ -184,7 +184,7 @@ botCache.monitors.set("commandHandler", {
   name: "commandHandler",
   ignoreDM: false,
   /** The main code that will be run when this monitor is triggered. */
-  execute: async function (message: Message) {
+  execute: function (message: Message) {
     // If the message was sent by a bot we can just ignore it
     if (message.author.bot) return;
 
