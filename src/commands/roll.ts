@@ -23,10 +23,10 @@ botCache.commands.set("roll", {
       required: false,
     },
   ],
-  execute: async function (message, args: RollArgs) {
+  execute: function (message, args: RollArgs) {
     const r = new Random();
     if (!args.dice) {
-      return sendMessage(message.channelID, r.int(1, 101));
+      return sendMessage(message.channelID, `${r.int(1, 101)}`);
     }
     if (args.dice === "letter" || args.dice === "lettre") {
       return sendMessage(

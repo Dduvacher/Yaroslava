@@ -1,5 +1,5 @@
 # Start from a base image which includes Deno (https://github.com/hayd/deno-docker)
-FROM hayd/alpine-deno:latest
+FROM hayd/deno:latest
 
 # Create and move into /bot directory
 WORKDIR /bot
@@ -17,4 +17,4 @@ ADD . .
 RUN deno cache mod.ts
 
 # Finally run the bot
-CMD ["run", "--allow-net", "--allow-read", "--allow-write", "--no-check", "./mod.ts"]
+CMD ["run", "--allow-net", "--allow-read", "--allow-write", "--allow-env", "--no-check", "./mod.ts"]
