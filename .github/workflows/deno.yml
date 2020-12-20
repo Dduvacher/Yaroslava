@@ -12,12 +12,11 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        deno: ["v1.x"]
+        deno: ["1.5.4"]
     name: Deno ${{ matrix.deno }}
 
     steps:
       - uses: actions/checkout@v2
-      
       - name: Setup Deno
         uses: denolib/setup-deno@v2
         with:
@@ -29,28 +28,25 @@ jobs:
       - name: Cache dependencies
         run: deno cache deps.ts
 
-      - name: Docker build
-        uses: actions/docker/cli@master
-        with:
-          args: build -t nlesommer/yaroslava .
+      - name: Login to DockerHub Registry
+        run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
-      - name: Docker login
-        uses: actions/docker/login@master
-        env:
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      - name: Build the Docker image
+        run: docker build -t yaroslava .
 
-      - name: Docker push
-        uses: actions/docker/cli@master
-        with:
-          args: push nlesommer/yaroslava
+      - name: Tag the Docker image
+        run: docker tag yaroslava nlesommer/yaroslava:latest
+
+      - name: Push the Docker image to the registry
+        run: docker push nlesommer/yaroslava:latest
 
       - name: Deploy on server
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          password: ${{ secrets.PASSWORD }}
-          port: ${{ secrets.PORT }}
-          script: echo test
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          script: |
+            docker rm yaroslava-container --force
+            docker run -d --name yaroslava-container -e DISCORD_BOT_TOKEN="${{ secrets.DISCORD_BOT_TOKEN }}" nlesommer/yaroslava:latest
           
