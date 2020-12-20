@@ -1,18 +1,19 @@
 # This workflow will install Deno and run tests across stable and nightly builds on Windows, Ubuntu and macOS.
 # For more information see: https://github.com/denolib/setup-deno
 
-name: Deno
+name: CI-CD
 
-on: push
+on:
+  push:
+#    branches: [ master ]
 
 jobs:
-  build:
+  build-and-publish:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         deno: ["v1.x"]
-        node-verision: ["14.x"]
-    name: Deno ${{ matrix.deno }} sample
+    name: Deno ${{ matrix.deno }}
 
     steps:
       - uses: actions/checkout@v2
@@ -25,14 +26,31 @@ jobs:
           deno --version
           deno run https://deno.land/std/examples/welcome.ts
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-
-      - name: Cache Dependencies
+      - name: Cache dependencies
         run: deno cache deps.ts
-      
-      - name: Deploy
-        run: npm --version
-      
+
+      - name: Docker build
+        uses: actions/docker/cli@master
+        with:
+          args: build -t nlesommer/yaroslava .
+
+      - name: Docker login
+        uses: actions/docker/login@master
+        env:
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+
+      - name: Docker push
+        uses: actions/docker/cli@master
+        with:
+          args: push nlesommer/yaroslava
+
+      - name: Deploy on server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: echo test
+          
