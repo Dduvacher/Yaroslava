@@ -1,8 +1,7 @@
 import { configs } from "../../configs.ts";
-import { sendResponse, getTime } from "../utils/helpers.ts";
+import { getTime, sendResponse } from "../utils/helpers.ts";
 import { handleError } from "../utils/errors.ts";
 import {
-  botCache,
   bgBlack,
   bgBlue,
   bgGreen,
@@ -17,6 +16,7 @@ import {
   red,
   white,
 } from "../../deps.ts";
+import { botCache } from "../../cache.ts";
 import { Command } from "../types/commands.ts";
 
 export const parsePrefix = (guildID: string | undefined) => {
@@ -184,7 +184,7 @@ botCache.monitors.set("commandHandler", {
   name: "commandHandler",
   ignoreDM: false,
   /** The main code that will be run when this monitor is triggered. */
-  execute: async function (message: Message) {
+  execute: function (message: Message) {
     // If the message was sent by a bot we can just ignore it
     if (message.author.bot) return;
 

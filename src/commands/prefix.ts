@@ -1,10 +1,6 @@
-import { botCache } from "../../deps.ts";
+import { botCache } from "../../cache.ts";
 import { PermissionLevels } from "../types/commands.ts";
-import {
-  sendResponse,
-  sendEmbed,
-  createSubcommand,
-} from "../utils/helpers.ts";
+import { createSubcommand, sendEmbed, sendResponse } from "../utils/helpers.ts";
 import { parsePrefix } from "../monitors/commandHandler.ts";
 import { Embed } from "../utils/Embed.ts";
 

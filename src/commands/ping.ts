@@ -1,5 +1,6 @@
 // This file is meant to show how you can create multiple commands in the same file if you wish.
-import { botCache, cache, sendMessage } from "../../deps.ts";
+import { botCache } from "../../cache.ts";
+import { cache, sendMessage } from "../../deps.ts";
 
 botCache.commands.set(`ping`, {
   name: `ping`,

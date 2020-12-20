@@ -23,6 +23,12 @@ export interface ReactionCollectorOptions extends BaseCollectorOptions {
     reaction: string,
     message: Message | MessageReactionUncachedPayload,
   ) => boolean;
+  /** Function that will determine the end of the collector */
+  stop?: (
+    userID: string,
+    reaction: string,
+    message: Message | MessageReactionUncachedPayload,
+  ) => boolean;
 }
 
 export interface BaseCollectorCreateOptions {
@@ -52,18 +58,28 @@ export interface CollectReactionsOptions extends BaseCollectorCreateOptions {
     reaction: string,
     message: Message | MessageReactionUncachedPayload,
   ) => boolean;
+  stop: (
+    userID: string,
+    reaction: string,
+    message: Message | MessageReactionUncachedPayload,
+  ) => boolean;
 }
 
 export interface MessageCollector extends CollectMessagesOptions {
   resolve: (value?: Message[] | PromiseLike<Message[]> | undefined) => void;
-  reject: (reason?: any) => void;
+  reject: (reason?: unknown) => void;
   /** Where the messages are stored if the amount to collect is more than 1. */
   messages: Message[];
 }
 
+export interface Reaction {
+  userID: string;
+  emojiName: string;
+}
+
 export interface ReactionCollector extends CollectReactionsOptions {
-  resolve: (value?: string[] | PromiseLike<string[]> | undefined) => void;
-  reject: (reason?: any) => void;
+  resolve: (value?: Reaction[] | undefined) => void;
+  reject: (reason?: unknown) => void;
   /** Where the messages are stored if the amount to collect is more than 1. */
-  reactions: string[];
+  reactions: Reaction[];
 }

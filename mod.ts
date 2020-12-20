@@ -1,4 +1,5 @@
-import StartBot, { botCache, Intents } from "./deps.ts";
+import StartBot, { Intents } from "./deps.ts";
+import { botCache } from "./cache.ts";
 import { configs } from "./configs.ts";
 import { importDirectory } from "./src/utils/helpers.ts";
 import { loadLanguages } from "./src/utils/i18next.ts";
@@ -38,7 +39,11 @@ StartBot({
   token: configs.token,
   // Pick the intents you wish to have for your bot.
   // For instance, to work with guild message reactions, you will have to pass the Intents.GUILD_MESSAGE_REACTIONS intent to the array.
-  intents: [Intents.GUILDS, Intents.GUILD_MESSAGES],
+  intents: [
+    Intents.GUILDS,
+    Intents.GUILD_MESSAGES,
+    Intents.GUILD_MESSAGE_REACTIONS,
+  ],
   // These are all your event handler functions. Imported from the events folder
   eventHandlers: botCache.eventHandlers,
 });

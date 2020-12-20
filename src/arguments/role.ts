@@ -1,4 +1,5 @@
-import { botCache, cache } from "../../deps.ts";
+import { botCache } from "../../cache.ts";
+import { cache } from "../../deps.ts";
 import { sendResponse } from "../utils/helpers.ts";
 
 botCache.arguments.set("role", {
